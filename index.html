@@ -1,0 +1,299 @@
+<Doctype! html>
+
+<html>
+
+<head>
+<title> Stundenplan-App
+</title>
+<style>
+
+table {
+       width:100%;
+      }
+tr:nth-child(4),tr:nth-child(5),tr:nth-child(8),tr:nth-child(9){
+background-color:aliceblue;
+}
+
+tr{
+	}
+      
+td {
+	height: auto;
+	min-height:8mm;
+	min-width:5mm;
+    border:1px solid;
+	border-radius:10px;
+    vertical-align:top;
+	text-align:center;
+	margin:1pt;
+	}
+
+p{	
+	margin:0pt;
+}
+
+.noclick{
+pointer-events:none;
+}
+
+.plan{
+	border-bottom:dotted;
+	border-left: solid;
+	border-width:1pt;
+	}
+	
+.kuerzell:hover {
+background-color:steelblue;
+
+	
+	}
+	
+	
+@media print {
+	@page {
+	margin: 5pt; 
+	font-family: "times new roman", times, serif;
+    text-align: justify;}
+	button{display:none;}
+	td{	
+	border-width:0 pt;
+	margin:0pt;
+	padding:0pt;
+	}
+  
+}
+
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+</head>
+
+
+<body>
+
+
+<button onClick="zerstoeren()">delete
+</button>
+<button onClick="drucken()">drucken
+</button>
+<input>
+</input>
+<button onClick="speichern()">Speicher-String erstellen
+</button>
+<button onClick="laden()">String aus Box laden
+</button>
+
+<div class="main">
+<h2>Montag</h2>
+<table>
+</table>
+<h2>Dienstag</h2>
+<div class="tableCopy">
+</div>
+<h2>Mittwoch</h2>
+<div class="tableCopy">
+</div>
+<h2>Donnerstag</h2>
+<div class="tableCopy">
+</div>
+<h2>Freitag</h2>
+<div class="tableCopy">
+</div>
+</div>
+
+<script>
+var stundenplanJSON=[];
+var lehrer = [
+"Ba",
+"Cla",
+"Cle",
+"Co",
+"Eh",
+"Fr",
+"Fun",
+"Gre",
+"Gü",
+"Hä",
+"He",
+"Ke",
+"Ki",
+"Ne",
+"Lb",
+"PM",
+"Pa",
+"Rei",
+"RoP",
+"San",
+"Sc",
+"Sm",
+"Sod",
+"So",
+"Ste",
+"Stk",
+"Wa",
+"Wo",
+"Ze",
+"Zw"
+];
+
+
+for(i=0;i<11;i++){
+$("table").append("<tr>" + "</tr>");
+
+	for(j=0;j<15;j++){
+		if(i==0){
+		$("table").children().eq(i).append("<th class='noclick'>"+"</th>");
+		}
+		else if(j==0){ //Stundenzahlen
+		$("table").children().eq(i).append("<th class='noclick'>"+ i +"</th>");
+		}else{
+		$("table").children().eq(i).append("<td>"+"</td>");
+		}
+	}
+}
+//Klassennummern
+for(i=0;i<15;i++){
+	if(i==0){
+	$("th").eq(i).text("Std");
+	}else{
+	$("th").eq(i).text(i);
+	}
+}
+//Lehrerkürzel
+for(i=0;i<lehrer.length; i++){
+$("table").children().eq(0).append("<th class='kuerzell'>"+lehrer[i]+"</th>");
+	for(j=1;j<11;j++){
+$("table").children().eq(j).append("<th class='noclick plan' >"+ "</th>");
+}
+}
+//Kopie
+$("table").clone().appendTo(".tableCopy");
+
+
+
+var kuerzel="";
+var spalteLehrer="";
+var spalteKlasse="";
+var reiheStunde="";
+var inhalt=[];
+var lehrerItem="";
+var zerstoerung=false;
+
+
+$("th").click(function(){
+zerstoerung=false;
+kuerzel=$(this).text();
+lehrerItem="<p>"+kuerzel+"</p>";
+spalteLehrer=$(this).index();
+});
+
+
+$("td").click(function(){
+	inhalt=[];
+	var laenge=$(this).children().length;
+	for(j=0;j<laenge;j++){
+		var jo=""+$(this).children().eq(j).text().trim();
+		inhalt.push(jo);
+	}
+	//alert(inhalt);
+	spalteKlasse=$(this).index();
+	reiheStunde=$(this).parent().index();
+	klasseVorher=$(this).parent().children().eq(spalteLehrer).text().trim();
+	
+	if(zerstoerung==false){
+		if(klasseVorher==""){
+		$(this).append(lehrerItem);
+		$(this).parent().children().eq(spalteLehrer).append("<div>"+spalteKlasse+"</div>");
+		}else{
+		alert("lehrer " + kuerzel + " schon vergeben");
+		}
+	}else{//bei zerstörung aktiv:
+		var kurz="";
+		var lehrerIndex=[];
+		for(i=0;i<lehrer.length;i++){
+			kurz=lehrer[i];
+	
+			for(j=0;j<laenge;j++){
+			
+				if(kurz==inhalt[j]){
+					var zahl=i+15;
+					lehrerIndex.push(zahl);
+				}
+			}
+		}
+		for(j=0;j<laenge;j++){
+		$(this).parent().children().eq(lehrerIndex[j]).empty();
+		}
+		$(this).empty();
+	}
+
+});
+
+
+function zerstoeren(){
+if(zerstoerung==false){zerstoerung=true;}
+else{
+zerstoerung=false;
+}
+}
+
+function drucken(){
+$("td").css("border-radius","5pt");
+$("td").css("margin","0pt");
+$("td").css("padding","0pt");
+window.print();
+
+}
+
+var anzahlTD=$("td").length;
+
+function speichern(){
+$("input").val("");
+for (i=0;i < anzahlTD ;i++){
+	var tdKinder = $("td").eq(i).html();// welches Format? String?
+	stundenplanJSON.push(tdKinder);
+	$("input").val(JSON.stringify(stundenplanJSON));
+}
+//stundenplanJSON.stringify();
+}
+
+function laden(){
+var inputInhalt=$("input").val();
+var string =inputInhalt.slice(1,inputInhalt.length-1);//Anführungszeichen wegschneiden
+var array=string.split(",");
+for (i=0;i<anzahlTD;i++){
+$("td").eq(i).empty();
+var arraylaenge=array[i].length;
+$("td").eq(i).append(array[i].slice(1,arraylaenge-1));
+}
+
+}
+
+
+
+
+aktuellerPlan();
+
+function lehrerSpalteErmitteln(kuerz){
+for(i=0;i<lehrer.length;i++){
+				if(kuerz==lehrer[i]){
+					var zahl=i+15;
+					}	
+		}
+		return zahl;
+}
+
+function aktuellerPlan(){
+//ke einfügen
+var hoho=lehrerSpalteErmitteln("Ke");
+
+}
+
+
+
+</script>
+</body>
+
+
+</html>
