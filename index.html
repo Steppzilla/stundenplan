@@ -119,6 +119,7 @@ var lehrer = [
 "Ke",
 "Ki",
 "Ne",
+"Lo",
 "Lb",
 "PM",
 "Pa",
@@ -250,6 +251,7 @@ var anzahlTD=$("td").length;
 
 function speichern(){
 $("input").val("");
+stundenplanJSON=[];
 for (i=0;i < anzahlTD ;i++){
 	var tdKinder = $("td").eq(i).html();// welches Format? String?
 	stundenplanJSON.push(tdKinder);
@@ -258,14 +260,35 @@ for (i=0;i < anzahlTD ;i++){
 //stundenplanJSON.stringify();
 }
 
-function laden(){
+function laden(){ //aus box laden ist verschoben in aktuellerPlan() dafür müsste input wieder rein
+
+$(".plan").empty();
+$("td").empty();
 var inputInhalt=$("input").val();
 var string =inputInhalt.slice(1,inputInhalt.length-1);//Anführungszeichen wegschneiden
 var array=string.split(",");
-for (i=0;i<anzahlTD;i++){
-$("td").eq(i).empty();
-var arraylaenge=array[i].length;
-$("td").eq(i).append(array[i].slice(1,arraylaenge-1));
+for (i=0;i<anzahlTD;i++){ 
+	var arraylaenge=array[i].length;
+	$("td").eq(i).append(array[i].slice(1,arraylaenge-1)); // hier fügt er in jedes td feld den Inhalt des Array zu
+	// klassenzahlen hinzufügen bei den Lehrern (erst kürzel extrahieren):
+}
+
+for(i=0;i<anzahlTD;i++){
+	var aktuelleBox=$("td").eq(i);
+	var kinderanzahl=aktuelleBox.children().length;
+	if(kinderanzahl==0){}
+	else{
+		for(j=0;j<kinderanzahl;j++){
+		//	alert(i + "  " + j);
+			var kue=aktuelleBox.children().eq(j).text();
+			var lehrerspalt=lehrerSpalteErmitteln(kue);
+			var klasse=aktuelleBox.index();
+			//var zeile=aktuelleBox.parent().index();
+			aktuelleBox.parent().children().eq(lehrerspalt).append("<div>"+klasse+"</div>");
+			
+		}
+	}
+
 }
 
 }
@@ -276,19 +299,21 @@ $("td").eq(i).append(array[i].slice(1,arraylaenge-1));
 aktuellerPlan();
 
 function lehrerSpalteErmitteln(kuerz){
-for(i=0;i<lehrer.length;i++){
-				if(kuerz==lehrer[i]){
-					var zahl=i+15;
+	//alert(kuerz);
+	var zahli="";
+	for(z=0;z<lehrer.length;z++){
+				if(kuerz==lehrer[z]){
+										zahli=z+15;
 					}	
 		}
-		return zahl;
+		return zahli;
 }
 
 function aktuellerPlan(){
 //ke einfügen
-var hoho=lehrerSpalteErmitteln("Ke");
-
+var plangesamtString='["<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Eh</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Eh</p>","","<p>Gü</p>","<p>Ki</p>","<p>Ze</p>","<p>Ke</p>","<p>So</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Wa</p><p>Zw</p>","<p>Fr</p><p>Ne</p>","","","","","<p>San</p>","","<p>Gü</p>","<p>Co</p>","<p>Wa</p>","<p>He</p><p>Zw</p>","<p>Ki</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Eh</p><p>Hä</p>","<p>Stk</p>","<p>Pa</p><p>Ne</p>","<p>So</p><p>Ze</p>","<p>PM</p><p>Ste</p>","<p>Fr</p>","<p>San</p>","","<p>Pa</p>","<p>Co</p><p>Ne</p>","<p>Ki</p>","<p>Sm</p>","<p>Gü</p><p>Zw</p>","","<p>Cle</p><p>Fun</p><p>RoP</p>","","<p>Eh</p><p>San</p>","<p>Ze</p><p>So</p>","<p>Fr</p><p>Hä</p>","<p>Wo</p><p>Ste</p>","<p>Lb</p>","<p>Cla</p>","","","<p>Pa</p><p>Hä</p>","","<p>Ze</p>","<p>Gü</p><p>Zw</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>So</p><p>Fr</p>","","","","","<p>Lb</p>","<p>Cla</p>","","","","","","<p>Ne</p><p>Ze</p>","","","","","","","","","","","","","","<p>Ze</p><p>Ne</p>","<p>Hä</p>","","","","","","<p>Sod</p>","<p>Gre</p>","","","","","","","","","<p>Co</p>","<p>Pa</p>","<p>San</p>","<p>Sc</p>","<p>Sod</p>","<p>Gre</p>","","","","","","","","","","","","","<p>Sod</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Eh</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Eh</p>","","<p>Ke</p>","<p>He</p><p>Zw</p>","<p>Ki</p>","<p>Sm</p>","<p>PM</p>","<p>San</p><p>Gü</p>","<p>Eh</p><p>Ze</p>","<p>Fr</p><p>So</p>","","","","","<p>Pa</p>","","<p>He</p><p>Zw</p>","<p>Co</p>","<p>Wa</p>","<p>Fr</p>","<p>PM</p>","<p>Gü</p><p>San</p>","<p>Ze</p><p>Eh</p>","<p>So</p><p>Sc</p>","<p>RoP</p><p>Lo</p>","<p>Sod</p>","<p>Ste</p><p>Ba</p>","<p>Ne</p>","<p>Pa</p>","","<p>Fr</p>","<p>San</p>","<p>Gü</p><p>Zw</p>","<p>Ke</p>","<p>So</p>","<p>Ze</p>","<p>PM</p>","","","","","","<p>Sod</p>","<p>Gre</p>","","","<p>Ze</p>","","<p>Ki</p>","<p>So</p><p>Ne</p>","<p>PM</p>","<p>He</p><p>Zw</p>","","","","","<p>Sod</p>","<p>Gre</p>","","","","","","","","<p>Cle</p><p>Fun</p><p>RoP</p>","","","","","","","","","","","","","","<p>Cle</p><p>Fun</p><p>RoP</p>","","","","","<p>Gre</p>","<p>Ste</p>","","","","","","","","","","","","","<p>Gre</p>","<p>Ste</p>","","","","","","","","","","","","","","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Cla</p><p>Lb</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Cla</p><p>Lb</p>","","<p>Fr</p>","<p>San</p>","<p>Ki</p>","<p>Ke</p>","<p>Ze</p>","<p>Ne</p><p>So</p>","<p>He</p>","<p>PM</p>","","","","","<p>Pa</p>","","<p>Ke</p>","<p>Wa</p>","<p>Ki</p>","<p>Sm</p>","<p>Stk</p>","<p>San</p>","<p>Eh</p><p>Ze</p>","<p>PM</p>","<p>He</p>","<p>Sc</p><p>So</p>","<p>Fr</p>","<p>Ste</p><p>Wo</p>","<p>Pa</p>","","<p>Ke</p>","<p>Ki</p>","<p>Hä</p><p>Pa</p>","<p>Lb</p>","<p>Ze</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","","<p>Ne</p>","<p>PM</p>","<p>So</p><p>Sc</p>","<p>Eh</p>","<p>Fr</p>","<p>Gre</p>","<p>Ste</p>","","","","<p>Lb</p>","","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Hä</p><p>Eh</p>","<p>Sc</p><p>So</p>","<p>PM</p>","<p>Wo</p><p>Sod</p>","","","<p>Gre</p>","<p>Ste</p>","","","","","","","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Ne</p>","","<p>Ze</p>","<p>Lb</p><p>Lo</p><p>Cla</p>","","","","","","","","","<p>PM</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","","<p>San</p><p>Eh</p>","<p>Ze</p>","","","<p>Sod</p>","<p>Gre</p>","","","","","","<p>PM</p>","","","","","","","<p>Sod</p>","<p>Gre</p>","","","","","","","","","","","","","<p>Gre</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Eh</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Eh</p>","","<p>Pa</p>","<p>San</p>","<p>PM</p>","<p>Sm</p>","<p>Gü</p>","<p>Wa</p>","<p>Eh</p><p>Ze</p>","<p>So</p><p>Fr</p>","","","","","<p>Lb</p>","<p>Cla</p>","<p>Fr</p>","<p>Ki</p>","<p>PM</p>","<p>Sm</p>","<p>Gü</p>","<p>So</p>","<p>He</p>","<p>Sc</p><p>Stk</p>","<p>Ne</p><p>Pa</p>","<p>Ze</p>","<p>Ba</p><p>Ste</p>","<p>Eh</p>","<p>Lb</p>","<p>Cla</p>","<p>Wa</p>","<p>Ne</p><p>Co</p>","<p>Ki</p>","<p>Fr</p>","<p>So</p>","<p>Pa</p><p>San</p>","<p>Sc</p><p>Stk</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Ba</p>","<p>PM</p>","","<p>Eh</p>","<p>Gre</p>","<p>Ste</p>","","","","","<p>Ze</p>","","","<p>Cle</p><p>Fun</p><p>RoP</p>","","<p>PM</p>","<p>Fr</p>","","<p>Gre</p>","<p>Ste</p>","","","","","","","","","<p>San</p>","","<p>PM</p>","<p>Fr</p>","","","","","","","","","","","","","<p>PM</p>","<p>Fr</p><p>Ne</p>","","","","","","","","","","","","","","<p>He</p>","","","","","","","","","","","","","","","","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Gre</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Gre</p>","","<p>Ke</p>","<p>Ki</p>","<p>Ze</p>","<p>Fr</p>","<p>Wa</p>","<p>So</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Stk</p>","","","","","<p>San</p>","","<p>Ke</p>","<p>Ki</p>","<p>Pa</p>","<p>PM</p>","<p>Stk</p>","<p>Ze</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Ne</p><p>Fr</p>","<p>Lo</p><p>Ba</p>","<p>So</p><p>Hä</p>","","<p>Sc</p>","<p>San</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>PM</p>","<p>Stk</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Sc</p><p>Ze</p>","","<p>San</p><p>Eh</p>","<p>Hä</p><p>So</p>","<p>Pa</p>","<p>Fr</p>","<p>Cla</p>","<p>Lb</p>","","","","","","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Ze</p><p>Sc</p>","<p>Fr</p><p>So</p>","","","","<p>Eh</p>","<p>Cla</p>","<p>Lb</p>","","","","","","","","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Eh</p><p>San</p>","<p>Sod</p><p>Wo</p>","<p>Hä</p><p>Fr</p>","","","","","","","","","","<p>Hä</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","","<p>He</p>","<p>Eh</p>","<p>PM</p>","","<p>Sod</p>","","","","","","","","","","","<p>Eh</p>","<p>PM</p>","","<p>Sod</p>","","","","","","","","","","","","","",""]';$("input").val(plangesamtString);laden();
 }
+
 
 
 
