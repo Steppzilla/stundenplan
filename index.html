@@ -85,7 +85,10 @@ background-color:steelblue;
 </button>
 <button onClick="laden()">String aus Box laden
 </button>
-
+<input type="radio" id="farbe" name="layout" >
+<label for="farbe">dunkel</label>
+<input type="radio" id="sw" name="layout" >
+<label for="sw">SW</label>
 <div class="main">
 <h2>Montag</h2>
 <table>
@@ -120,11 +123,12 @@ var lehrer = [
 "He",
 "Ke",
 "Ki",
-"Ne",
 "Lo",
+"Ne",
 "Lb",
-"PM",
 "Pa",
+"Pi",
+"PM",
 "Rei",
 "RoP",
 "San",
@@ -327,6 +331,30 @@ $("input").val(plangesamtString);
 laden();
 }
 
+//FARBE-Wählen:
+
+$("#sw").click(
+function(){
+
+$("*").css("background-color","white");
+$("*").css("color","black");
+$(".kuerzell").hover(
+function(){$(this).css("background-color","yellow");},
+function(){$(this).css("background-color","");}
+);
+}
+);
+$("#farbe").click(
+function(){
+
+$("*").css("background-color","midnightblue");
+$("*").css("color","lightgrey");
+$(".kuerzell").hover(
+function(){$(this).css("background-color","yellow");},
+function(){$(this).css("background-color","");}
+);
+}
+);
 
 
 
