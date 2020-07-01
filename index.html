@@ -65,8 +65,10 @@ background-color:steelblue;
 
 
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>	<!---jquery-->
+ <!--<script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>				<!---json?? unnötig?-->
+<!--<script src='jquery.base64.js'></script><!---verschlüsselung-->
+<script type="text/javascript" src="https://rawgit.com/carlo/jquery-base64/master/jquery.base64.min.js"></script>
 </head>
 
 
@@ -238,7 +240,7 @@ else{
 zerstoerung=false;
 }
 }
-
+//Druck
 function drucken(){
 $("td").css("border-radius","5pt");
 $("td").css("margin","0pt");
@@ -249,22 +251,28 @@ window.print();
 
 var anzahlTD=$("td").length;
 
+//SAVE
+//STring in den Input schreiben
 function speichern(){
 $("input").val("");
 stundenplanJSON=[];
 for (i=0;i < anzahlTD ;i++){
-	var tdKinder = $("td").eq(i).html();// welches Format? String?
-	stundenplanJSON.push(tdKinder);
-	$("input").val(JSON.stringify(stundenplanJSON));
+	var tdKinder = $("td").eq(i).html();// HtmlInhalt einer td-box
+	stundenplanJSON.push(tdKinder);  //Array mit html Elementen
+	var stringJSON=JSON.stringify(stundenplanJSON);
+	var encrypted=$.base64.encode(stringJSON); 
+	$("input").val(encrypted);
 }
-//stundenplanJSON.stringify();
 }
 
+
+//LOAD
 function laden(){ //aus box laden ist verschoben in aktuellerPlan() dafür müsste input wieder rein
 
 $(".plan").empty();
 $("td").empty();
 var inputInhalt=$("input").val();
+inputInhalt=$.base64.decode(inputInhalt);
 var string =inputInhalt.slice(1,inputInhalt.length-1);//Anführungszeichen wegschneiden
 var array=string.split(",");
 for (i=0;i<anzahlTD;i++){ 
@@ -273,6 +281,7 @@ for (i=0;i<anzahlTD;i++){
 	// klassenzahlen hinzufügen bei den Lehrern (erst kürzel extrahieren):
 }
 
+//Klassenzahlen bei Lehrern reinschreiben:
 for(i=0;i<anzahlTD;i++){
 	var aktuelleBox=$("td").eq(i);
 	var kinderanzahl=aktuelleBox.children().length;
@@ -294,12 +303,7 @@ for(i=0;i<anzahlTD;i++){
 }
 
 
-
-
-aktuellerPlan();
-
 function lehrerSpalteErmitteln(kuerz){
-	//alert(kuerz);
 	var zahli="";
 	for(z=0;z<lehrer.length;z++){
 				if(kuerz==lehrer[z]){
@@ -309,9 +313,18 @@ function lehrerSpalteErmitteln(kuerz){
 		return zahli;
 }
 
+
+
+
+//bei Start füllen mit Plan:
+aktuellerPlan();
+
+
 function aktuellerPlan(){
 //ke einfügen
-var plangesamtString='["<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Eh</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Eh</p>","","<p>Gü</p>","<p>Ki</p>","<p>Ze</p>","<p>Ke</p>","<p>So</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Wa</p><p>Zw</p>","<p>Fr</p><p>Ne</p>","","","","","<p>San</p>","","<p>Gü</p>","<p>Co</p>","<p>Wa</p>","<p>He</p><p>Zw</p>","<p>Ki</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Eh</p><p>Hä</p>","<p>Stk</p>","<p>Pa</p><p>Ne</p>","<p>So</p><p>Ze</p>","<p>PM</p><p>Ste</p>","<p>Fr</p>","<p>San</p>","","<p>Pa</p>","<p>Co</p><p>Ne</p>","<p>Ki</p>","<p>Sm</p>","<p>Gü</p><p>Zw</p>","","<p>Cle</p><p>Fun</p><p>RoP</p>","","<p>Eh</p><p>San</p>","<p>Ze</p><p>So</p>","<p>Fr</p><p>Hä</p>","<p>Wo</p><p>Ste</p>","<p>Lb</p>","<p>Cla</p>","","","<p>Pa</p><p>Hä</p>","","<p>Ze</p>","<p>Gü</p><p>Zw</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>So</p><p>Fr</p>","","","","","<p>Lb</p>","<p>Cla</p>","","","","","","<p>Ne</p><p>Ze</p>","","","","","","","","","","","","","","<p>Ze</p><p>Ne</p>","<p>Hä</p>","","","","","","<p>Sod</p>","<p>Gre</p>","","","","","","","","","<p>Co</p>","<p>Pa</p>","<p>San</p>","<p>Sc</p>","<p>Sod</p>","<p>Gre</p>","","","","","","","","","","","","","<p>Sod</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Eh</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Eh</p>","","<p>Ke</p>","<p>He</p><p>Zw</p>","<p>Ki</p>","<p>Sm</p>","<p>PM</p>","<p>San</p><p>Gü</p>","<p>Eh</p><p>Ze</p>","<p>Fr</p><p>So</p>","","","","","<p>Pa</p>","","<p>He</p><p>Zw</p>","<p>Co</p>","<p>Wa</p>","<p>Fr</p>","<p>PM</p>","<p>Gü</p><p>San</p>","<p>Ze</p><p>Eh</p>","<p>So</p><p>Sc</p>","<p>RoP</p><p>Lo</p>","<p>Sod</p>","<p>Ste</p><p>Ba</p>","<p>Ne</p>","<p>Pa</p>","","<p>Fr</p>","<p>San</p>","<p>Gü</p><p>Zw</p>","<p>Ke</p>","<p>So</p>","<p>Ze</p>","<p>PM</p>","","","","","","<p>Sod</p>","<p>Gre</p>","","","<p>Ze</p>","","<p>Ki</p>","<p>So</p><p>Ne</p>","<p>PM</p>","<p>He</p><p>Zw</p>","","","","","<p>Sod</p>","<p>Gre</p>","","","","","","","","<p>Cle</p><p>Fun</p><p>RoP</p>","","","","","","","","","","","","","","<p>Cle</p><p>Fun</p><p>RoP</p>","","","","","<p>Gre</p>","<p>Ste</p>","","","","","","","","","","","","","<p>Gre</p>","<p>Ste</p>","","","","","","","","","","","","","","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Cla</p><p>Lb</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Cla</p><p>Lb</p>","","<p>Fr</p>","<p>San</p>","<p>Ki</p>","<p>Ke</p>","<p>Ze</p>","<p>Ne</p><p>So</p>","<p>He</p>","<p>PM</p>","","","","","<p>Pa</p>","","<p>Ke</p>","<p>Wa</p>","<p>Ki</p>","<p>Sm</p>","<p>Stk</p>","<p>San</p>","<p>Eh</p><p>Ze</p>","<p>PM</p>","<p>He</p>","<p>Sc</p><p>So</p>","<p>Fr</p>","<p>Ste</p><p>Wo</p>","<p>Pa</p>","","<p>Ke</p>","<p>Ki</p>","<p>Hä</p><p>Pa</p>","<p>Lb</p>","<p>Ze</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","","<p>Ne</p>","<p>PM</p>","<p>So</p><p>Sc</p>","<p>Eh</p>","<p>Fr</p>","<p>Gre</p>","<p>Ste</p>","","","","<p>Lb</p>","","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Hä</p><p>Eh</p>","<p>Sc</p><p>So</p>","<p>PM</p>","<p>Wo</p><p>Sod</p>","","","<p>Gre</p>","<p>Ste</p>","","","","","","","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Ne</p>","","<p>Ze</p>","<p>Lb</p><p>Lo</p><p>Cla</p>","","","","","","","","","<p>PM</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","","<p>San</p><p>Eh</p>","<p>Ze</p>","","","<p>Sod</p>","<p>Gre</p>","","","","","","<p>PM</p>","","","","","","","<p>Sod</p>","<p>Gre</p>","","","","","","","","","","","","","<p>Gre</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Eh</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Eh</p>","","<p>Pa</p>","<p>San</p>","<p>PM</p>","<p>Sm</p>","<p>Gü</p>","<p>Wa</p>","<p>Eh</p><p>Ze</p>","<p>So</p><p>Fr</p>","","","","","<p>Lb</p>","<p>Cla</p>","<p>Fr</p>","<p>Ki</p>","<p>PM</p>","<p>Sm</p>","<p>Gü</p>","<p>So</p>","<p>He</p>","<p>Sc</p><p>Stk</p>","<p>Ne</p><p>Pa</p>","<p>Ze</p>","<p>Ba</p><p>Ste</p>","<p>Eh</p>","<p>Lb</p>","<p>Cla</p>","<p>Wa</p>","<p>Ne</p><p>Co</p>","<p>Ki</p>","<p>Fr</p>","<p>So</p>","<p>Pa</p><p>San</p>","<p>Sc</p><p>Stk</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Ba</p>","<p>PM</p>","","<p>Eh</p>","<p>Gre</p>","<p>Ste</p>","","","","","<p>Ze</p>","","","<p>Cle</p><p>Fun</p><p>RoP</p>","","<p>PM</p>","<p>Fr</p>","","<p>Gre</p>","<p>Ste</p>","","","","","","","","","<p>San</p>","","<p>PM</p>","<p>Fr</p>","","","","","","","","","","","","","<p>PM</p>","<p>Fr</p><p>Ne</p>","","","","","","","","","","","","","","<p>He</p>","","","","","","","","","","","","","","","","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Gre</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>Sm</p>","<p>Ki</p>","<p>Gü</p>","<p>He</p>","<p>Stk</p>","","","","","<p>Gre</p>","","<p>Ke</p>","<p>Ki</p>","<p>Ze</p>","<p>Fr</p>","<p>Wa</p>","<p>So</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Stk</p>","","","","","<p>San</p>","","<p>Ke</p>","<p>Ki</p>","<p>Pa</p>","<p>PM</p>","<p>Stk</p>","<p>Ze</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Ne</p><p>Fr</p>","<p>Lo</p><p>Ba</p>","<p>So</p><p>Hä</p>","","<p>Sc</p>","<p>San</p>","","<p>Ke</p>","<p>Co</p>","<p>Wa</p>","<p>PM</p>","<p>Stk</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Sc</p><p>Ze</p>","","<p>San</p><p>Eh</p>","<p>Hä</p><p>So</p>","<p>Pa</p>","<p>Fr</p>","<p>Cla</p>","<p>Lb</p>","","","","","","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Ze</p><p>Sc</p>","<p>Fr</p><p>So</p>","","","","<p>Eh</p>","<p>Cla</p>","<p>Lb</p>","","","","","","","","<p>Cle</p><p>Fun</p><p>RoP</p>","<p>Eh</p><p>San</p>","<p>Sod</p><p>Wo</p>","<p>Hä</p><p>Fr</p>","","","","","","","","","","<p>Hä</p>","<p>Cle</p><p>Fun</p><p>RoP</p>","","<p>He</p>","<p>Eh</p>","<p>PM</p>","","<p>Sod</p>","","","","","","","","","","","<p>Eh</p>","<p>PM</p>","","<p>Sod</p>","","","","","","","","","","","","","",""]';$("input").val(plangesamtString);laden();
+var plangesamtString='WyI8cD5LZTwvcD4iLCI8cD5DbzwvcD4iLCI8cD5XYTwvcD4iLCI8cD5TbTwvcD4iLCI8cD5LaTwvcD4iLCI8cD5H/DwvcD4iLCI8cD5IZTwvcD4iLCI8cD5TdGs8L3A+IiwiIiwiIiwiIiwiIiwiPHA+RWg8L3A+IiwiIiwiPHA+S2U8L3A+IiwiPHA+Q288L3A+IiwiPHA+V2E8L3A+IiwiPHA+U208L3A+IiwiPHA+S2k8L3A+IiwiPHA+R/w8L3A+IiwiPHA+SGU8L3A+IiwiPHA+U3RrPC9wPiIsIiIsIiIsIiIsIiIsIjxwPkVoPC9wPiIsIiIsIjxwPkf8PC9wPiIsIjxwPktpPC9wPiIsIjxwPlplPC9wPiIsIjxwPktlPC9wPiIsIjxwPlNvPC9wPiIsIjxwPkNsZTwvcD48cD5GdW48L3A+PHA+Um9QPC9wPiIsIjxwPldhPC9wPjxwPlp3PC9wPiIsIjxwPkZyPC9wPjxwPk5lPC9wPiIsIiIsIiIsIiIsIiIsIjxwPlNhbjwvcD4iLCIiLCI8cD5H/DwvcD4iLCI8cD5DbzwvcD4iLCI8cD5XYTwvcD4iLCI8cD5IZTwvcD48cD5adzwvcD4iLCI8cD5LaTwvcD4iLCI8cD5DbGU8L3A+PHA+RnVuPC9wPjxwPlJvUDwvcD4iLCI8cD5FaDwvcD48cD5I5DwvcD4iLCI8cD5TdGs8L3A+IiwiPHA+UGE8L3A+PHA+TmU8L3A+IiwiPHA+U288L3A+PHA+WmU8L3A+IiwiPHA+UE08L3A+PHA+U3RlPC9wPiIsIjxwPkZyPC9wPiIsIjxwPlNhbjwvcD4iLCIiLCI8cD5QYTwvcD4iLCI8cD5DbzwvcD48cD5OZTwvcD4iLCI8cD5LaTwvcD4iLCI8cD5TbTwvcD4iLCI8cD5H/DwvcD48cD5adzwvcD4iLCIiLCI8cD5DbGU8L3A+PHA+RnVuPC9wPjxwPlJvUDwvcD4iLCIiLCI8cD5FaDwvcD48cD5TYW48L3A+IiwiPHA+WmU8L3A+PHA+U288L3A+IiwiPHA+RnI8L3A+PHA+SOQ8L3A+IiwiPHA+V288L3A+PHA+U3RlPC9wPiIsIjxwPkxiPC9wPiIsIjxwPkNsYTwvcD4iLCIiLCIiLCI8cD5QYTwvcD48cD5I5DwvcD4iLCIiLCI8cD5aZTwvcD4iLCI8cD5H/DwvcD48cD5adzwvcD4iLCI8cD5DbGU8L3A+PHA+RnVuPC9wPjxwPlJvUDwvcD4iLCI8cD5TbzwvcD48cD5GcjwvcD4iLCIiLCIiLCIiLCIiLCI8cD5MYjwvcD4iLCI8cD5DbGE8L3A+IiwiIiwiIiwiIiwiIiwiIiwiPHA+TmU8L3A+PHA+WmU8L3A+IiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiPHA+WmU8L3A+PHA+TmU8L3A+IiwiPHA+SOQ8L3A+IiwiIiwiIiwiIiwiIiwiIiwiPHA+U29kPC9wPiIsIjxwPkdyZTwvcD4iLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCI8cD5DbzwvcD4iLCI8cD5QYTwvcD4iLCI8cD5TYW48L3A+IiwiPHA+U2M8L3A+IiwiPHA+U29kPC9wPiIsIjxwPkdyZTwvcD4iLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCI8cD5Tb2Q8L3A+IiwiIiwiPHA+S2U8L3A+IiwiPHA+Q288L3A+IiwiPHA+V2E8L3A+IiwiPHA+U208L3A+IiwiPHA+S2k8L3A+IiwiPHA+R/w8L3A+IiwiPHA+SGU8L3A+IiwiPHA+U3RrPC9wPiIsIiIsIiIsIiIsIiIsIjxwPkVoPC9wPiIsIiIsIjxwPktlPC9wPiIsIjxwPkNvPC9wPiIsIjxwPldhPC9wPiIsIjxwPlNtPC9wPiIsIjxwPktpPC9wPiIsIjxwPkf8PC9wPiIsIjxwPkhlPC9wPiIsIjxwPlN0azwvcD4iLCIiLCIiLCIiLCIiLCI8cD5FaDwvcD4iLCIiLCI8cD5LZTwvcD4iLCI8cD5IZTwvcD48cD5adzwvcD4iLCI8cD5LaTwvcD4iLCI8cD5TbTwvcD4iLCI8cD5QTTwvcD4iLCI8cD5TYW48L3A+PHA+R/w8L3A+IiwiPHA+RWg8L3A+PHA+WmU8L3A+IiwiPHA+RnI8L3A+PHA+U288L3A+IiwiIiwiIiwiIiwiIiwiPHA+UGE8L3A+IiwiIiwiPHA+SGU8L3A+PHA+Wnc8L3A+IiwiPHA+Q288L3A+IiwiPHA+V2E8L3A+IiwiPHA+RnI8L3A+IiwiPHA+UE08L3A+IiwiPHA+R/w8L3A+PHA+U2FuPC9wPiIsIjxwPlplPC9wPjxwPkVoPC9wPiIsIjxwPlNvPC9wPjxwPlNjPC9wPiIsIjxwPlJvUDwvcD48cD5MbzwvcD4iLCI8cD5Tb2Q8L3A+IiwiPHA+U3RlPC9wPjxwPkJhPC9wPiIsIjxwPk5lPC9wPiIsIjxwPlBhPC9wPiIsIiIsIjxwPkZyPC9wPiIsIjxwPlNhbjwvcD4iLCI8cD5H/DwvcD48cD5adzwvcD4iLCI8cD5LZTwvcD4iLCI8cD5TbzwvcD4iLCI8cD5aZTwvcD4iLCI8cD5QTTwvcD4iLCIiLCIiLCIiLCIiLCIiLCI8cD5Tb2Q8L3A+IiwiPHA+R3JlPC9wPiIsIiIsIiIsIjxwPlplPC9wPiIsIiIsIjxwPktpPC9wPiIsIjxwPlNvPC9wPjxwPk5lPC9wPiIsIjxwPlBNPC9wPiIsIjxwPkhlPC9wPjxwPlp3PC9wPiIsIiIsIiIsIiIsIiIsIjxwPlNvZDwvcD4iLCI8cD5HcmU8L3A+IiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiPHA+Q2xlPC9wPjxwPkZ1bjwvcD48cD5Sb1A8L3A+IiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiPHA+Q2xlPC9wPjxwPkZ1bjwvcD48cD5Sb1A8L3A+IiwiIiwiIiwiIiwiIiwiPHA+R3JlPC9wPiIsIjxwPlN0ZTwvcD4iLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCI8cD5HcmU8L3A+IiwiPHA+U3RlPC9wPiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsIjxwPktlPC9wPiIsIjxwPkNvPC9wPiIsIjxwPldhPC9wPiIsIjxwPlNtPC9wPiIsIjxwPktpPC9wPiIsIjxwPkf8PC9wPiIsIjxwPkhlPC9wPiIsIjxwPlN0azwvcD4iLCIiLCIiLCIiLCIiLCI8cD5DbGE8L3A+PHA+TGI8L3A+IiwiIiwiPHA+S2U8L3A+IiwiPHA+Q288L3A+IiwiPHA+V2E8L3A+IiwiPHA+U208L3A+IiwiPHA+S2k8L3A+IiwiPHA+R/w8L3A+IiwiPHA+SGU8L3A+IiwiPHA+U3RrPC9wPiIsIiIsIiIsIiIsIiIsIjxwPkNsYTwvcD48cD5MYjwvcD4iLCIiLCI8cD5GcjwvcD4iLCI8cD5TYW48L3A+IiwiPHA+S2k8L3A+IiwiPHA+S2U8L3A+IiwiPHA+WmU8L3A+IiwiPHA+TmU8L3A+PHA+U288L3A+IiwiPHA+SGU8L3A+IiwiPHA+UE08L3A+IiwiIiwiIiwiIiwiIiwiPHA+UGE8L3A+IiwiIiwiPHA+S2U8L3A+IiwiPHA+V2E8L3A+IiwiPHA+S2k8L3A+IiwiPHA+U208L3A+IiwiPHA+U3RrPC9wPiIsIjxwPlNhbjwvcD4iLCI8cD5FaDwvcD48cD5aZTwvcD4iLCI8cD5QTTwvcD4iLCI8cD5IZTwvcD4iLCI8cD5TYzwvcD48cD5TbzwvcD4iLCI8cD5GcjwvcD4iLCI8cD5TdGU8L3A+PHA+V288L3A+IiwiPHA+UGE8L3A+IiwiIiwiPHA+S2U8L3A+IiwiPHA+S2k8L3A+IiwiPHA+SOQ8L3A+PHA+UGE8L3A+IiwiPHA+TGI8L3A+IiwiPHA+WmU8L3A+IiwiPHA+Q2xlPC9wPjxwPkZ1bjwvcD48cD5Sb1A8L3A+IiwiIiwiPHA+TmU8L3A+IiwiPHA+UE08L3A+IiwiPHA+U288L3A+PHA+U2M8L3A+IiwiPHA+RWg8L3A+IiwiPHA+RnI8L3A+IiwiPHA+R3JlPC9wPiIsIjxwPlN0ZTwvcD4iLCIiLCIiLCIiLCI8cD5MYjwvcD4iLCIiLCI8cD5DbGU8L3A+PHA+RnVuPC9wPjxwPlJvUDwvcD4iLCI8cD5I5DwvcD48cD5FaDwvcD4iLCI8cD5TYzwvcD48cD5TbzwvcD4iLCI8cD5QTTwvcD4iLCI8cD5XbzwvcD48cD5Tb2Q8L3A+IiwiIiwiIiwiPHA+R3JlPC9wPiIsIjxwPlN0ZTwvcD4iLCIiLCIiLCIiLCIiLCIiLCIiLCI8cD5DbGU8L3A+PHA+RnVuPC9wPjxwPlJvUDwvcD4iLCI8cD5OZTwvcD4iLCIiLCI8cD5aZTwvcD4iLCI8cD5MYjwvcD48cD5MbzwvcD48cD5DbGE8L3A+IiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiPHA+UE08L3A+IiwiPHA+Q2xlPC9wPjxwPkZ1bjwvcD48cD5Sb1A8L3A+IiwiIiwiPHA+U2FuPC9wPjxwPkVoPC9wPiIsIjxwPlplPC9wPiIsIiIsIiIsIjxwPlNvZDwvcD4iLCI8cD5HcmU8L3A+IiwiIiwiIiwiIiwiIiwiIiwiPHA+UE08L3A+IiwiIiwiIiwiIiwiIiwiIiwiIiwiPHA+U29kPC9wPiIsIjxwPkdyZTwvcD4iLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCI8cD5HcmU8L3A+IiwiIiwiPHA+S2U8L3A+IiwiPHA+Q288L3A+IiwiPHA+V2E8L3A+IiwiPHA+U208L3A+IiwiPHA+S2k8L3A+IiwiPHA+R/w8L3A+IiwiPHA+SGU8L3A+IiwiPHA+U3RrPC9wPiIsIiIsIiIsIiIsIiIsIjxwPkVoPC9wPiIsIiIsIjxwPktlPC9wPiIsIjxwPkNvPC9wPiIsIjxwPldhPC9wPiIsIjxwPlNtPC9wPiIsIjxwPktpPC9wPiIsIjxwPkf8PC9wPiIsIjxwPkhlPC9wPiIsIjxwPlN0azwvcD4iLCIiLCIiLCIiLCIiLCI8cD5FaDwvcD4iLCIiLCI8cD5QYTwvcD4iLCI8cD5TYW48L3A+IiwiPHA+UE08L3A+IiwiPHA+U208L3A+IiwiPHA+R/w8L3A+IiwiPHA+V2E8L3A+IiwiPHA+RWg8L3A+PHA+WmU8L3A+IiwiPHA+U288L3A+PHA+RnI8L3A+IiwiIiwiIiwiIiwiIiwiPHA+TGI8L3A+IiwiPHA+Q2xhPC9wPiIsIjxwPkZyPC9wPiIsIjxwPktpPC9wPiIsIjxwPlBNPC9wPiIsIjxwPlNtPC9wPiIsIjxwPkf8PC9wPiIsIjxwPlNvPC9wPiIsIjxwPkhlPC9wPiIsIjxwPlNjPC9wPjxwPlN0azwvcD4iLCI8cD5OZTwvcD48cD5QYTwvcD4iLCI8cD5aZTwvcD4iLCI8cD5CYTwvcD48cD5TdGU8L3A+IiwiPHA+RWg8L3A+IiwiPHA+TGI8L3A+IiwiPHA+Q2xhPC9wPiIsIjxwPldhPC9wPiIsIjxwPk5lPC9wPjxwPkNvPC9wPiIsIjxwPktpPC9wPiIsIjxwPkZyPC9wPiIsIjxwPlNvPC9wPiIsIjxwPlBhPC9wPjxwPlNhbjwvcD4iLCI8cD5TYzwvcD48cD5TdGs8L3A+IiwiPHA+Q2xlPC9wPjxwPkZ1bjwvcD48cD5Sb1A8L3A+IiwiPHA+QmE8L3A+IiwiPHA+UE08L3A+IiwiIiwiPHA+RWg8L3A+IiwiPHA+R3JlPC9wPiIsIjxwPlN0ZTwvcD4iLCIiLCIiLCIiLCIiLCI8cD5aZTwvcD4iLCIiLCIiLCI8cD5DbGU8L3A+PHA+RnVuPC9wPjxwPlJvUDwvcD4iLCIiLCI8cD5QTTwvcD4iLCI8cD5GcjwvcD4iLCIiLCI8cD5HcmU8L3A+IiwiPHA+U3RlPC9wPiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsIjxwPlNhbjwvcD4iLCIiLCI8cD5QTTwvcD4iLCI8cD5GcjwvcD4iLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCI8cD5QTTwvcD4iLCI8cD5GcjwvcD48cD5OZTwvcD4iLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCI8cD5IZTwvcD4iLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCI8cD5LZTwvcD4iLCI8cD5DbzwvcD4iLCI8cD5XYTwvcD4iLCI8cD5TbTwvcD4iLCI8cD5LaTwvcD4iLCI8cD5H/DwvcD4iLCI8cD5IZTwvcD4iLCI8cD5TdGs8L3A+IiwiIiwiIiwiIiwiIiwiPHA+R3JlPC9wPiIsIiIsIjxwPktlPC9wPiIsIjxwPkNvPC9wPiIsIjxwPldhPC9wPiIsIjxwPlNtPC9wPiIsIjxwPktpPC9wPiIsIjxwPkf8PC9wPiIsIjxwPkhlPC9wPiIsIjxwPlN0azwvcD4iLCIiLCIiLCIiLCIiLCI8cD5HcmU8L3A+IiwiIiwiPHA+S2U8L3A+IiwiPHA+S2k8L3A+IiwiPHA+WmU8L3A+IiwiPHA+RnI8L3A+IiwiPHA+V2E8L3A+IiwiPHA+U288L3A+IiwiPHA+Q2xlPC9wPjxwPkZ1bjwvcD48cD5Sb1A8L3A+IiwiPHA+U3RrPC9wPiIsIiIsIiIsIiIsIiIsIjxwPlNhbjwvcD4iLCIiLCI8cD5LZTwvcD4iLCI8cD5LaTwvcD4iLCI8cD5QYTwvcD4iLCI8cD5QTTwvcD4iLCI8cD5TdGs8L3A+IiwiPHA+WmU8L3A+IiwiPHA+Q2xlPC9wPjxwPkZ1bjwvcD48cD5Sb1A8L3A+IiwiPHA+TmU8L3A+PHA+RnI8L3A+IiwiPHA+TG88L3A+PHA+QmE8L3A+IiwiPHA+U288L3A+PHA+SOQ8L3A+IiwiIiwiPHA+U2M8L3A+IiwiPHA+U2FuPC9wPiIsIiIsIjxwPktlPC9wPiIsIjxwPkNvPC9wPiIsIjxwPldhPC9wPiIsIjxwPlBNPC9wPiIsIjxwPlN0azwvcD4iLCI8cD5DbGU8L3A+PHA+RnVuPC9wPjxwPlJvUDwvcD4iLCI8cD5TYzwvcD48cD5aZTwvcD4iLCIiLCI8cD5TYW48L3A+PHA+RWg8L3A+IiwiPHA+SOQ8L3A+PHA+U288L3A+IiwiPHA+UGE8L3A+IiwiPHA+RnI8L3A+IiwiPHA+Q2xhPC9wPiIsIjxwPkxiPC9wPiIsIiIsIiIsIiIsIiIsIiIsIjxwPkNsZTwvcD48cD5GdW48L3A+PHA+Um9QPC9wPiIsIjxwPlplPC9wPjxwPlNjPC9wPiIsIjxwPkZyPC9wPjxwPlNvPC9wPiIsIiIsIiIsIiIsIjxwPkVoPC9wPiIsIjxwPkNsYTwvcD4iLCI8cD5MYjwvcD4iLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCI8cD5DbGU8L3A+PHA+RnVuPC9wPjxwPlJvUDwvcD4iLCI8cD5FaDwvcD48cD5TYW48L3A+IiwiPHA+U29kPC9wPjxwPldvPC9wPiIsIjxwPkjkPC9wPjxwPkZyPC9wPiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsIjxwPkjkPC9wPiIsIjxwPkNsZTwvcD48cD5GdW48L3A+PHA+Um9QPC9wPiIsIiIsIjxwPkhlPC9wPiIsIjxwPkVoPC9wPiIsIjxwPlBNPC9wPiIsIiIsIjxwPlNvZDwvcD4iLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLCI8cD5FaDwvcD4iLCI8cD5QTTwvcD4iLCIiLCI8cD5Tb2Q8L3A+IiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIl0=';
+$("input").val(plangesamtString);
+laden();
 }
 
 
