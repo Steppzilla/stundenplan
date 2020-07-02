@@ -6,12 +6,14 @@
 <title> Stundenplan-App
 </title>
 <style>
-
+*{
+	background: rgba(20,20,20,0.1);
+	color:white;}
 table {
        width:100%;
       }
 tr:nth-child(4),tr:nth-child(5),tr:nth-child(8),tr:nth-child(9){
-background-color:aliceblue;
+background: rgba(20,20,20,0.01);
 }
 
 tr{	}
@@ -20,18 +22,16 @@ td {
 	height: auto;
 	min-height:8mm;
 	min-width:5mm;
-    border:1px solid;
-	border-radius:10px;
     vertical-align:top;
 	text-align:center;
-	margin:1pt;
 	}
 
 p{	
-	margin:0pt;
+	margin:1pt;
 	border-radius:10px;
 	border-width:1px;
 	border-style:solid;
+	padding:1pt;
 }
 
 
@@ -60,9 +60,7 @@ pointer-events:none;
 }
 
 .plan{
-	border-bottom:dotted;
-	border-left: solid;
-	border-width:1pt;
+
 	}
 	
 .plan div{
