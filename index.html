@@ -238,9 +238,11 @@ $("td").click(function(){
 	
 	if(zerstoerung==false){
 		if(klasseVorher==""){
-		$(this).append(lehrerItem);
-		$(this).parent().children().eq(spalteLehrer).append("<div>"+spalteKlasse+"</div>");
-		$(this).parent().children().eq(spalteLehrer).children().eq(0).addClass(kuerzel);
+		$(this).append(lehrerItem);  //Lehrerkürzel
+		var kleineskuerzel=kuerzel.toLowerCase();
+		$(this).children().last().addClass(kleineskuerzel); //Farb-Klasse hinzufügen
+		$(this).parent().children().eq(spalteLehrer).append("<div>"+spalteKlasse+"</div>"); //Klassennummer
+		$(this).parent().children().eq(spalteLehrer).children().eq(0).addClass(kleineskuerzel);
 		}else{
 		alert("lehrer " + kuerzel + " schon vergeben in Klasse " + klasseVorher);
 		}
