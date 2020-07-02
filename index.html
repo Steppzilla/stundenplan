@@ -38,20 +38,20 @@ p{
 
 
 .wo, .ba,.cla{
-color:red;
+background-color:red;
 border-color:red;
 }
-.eh, .so{color:green;
+.eh, .so{background-color:green;
 border-color:green;}
-.fr,.san,.ze{color:blue;
+.fr,.san,.ze{background-color:blue;
 border-color:blue;}
-.sod,.ste{color:orange;
+.sod,.ste{background-color:orange;
 border-color:orange;}
-.sc, .pa,.lb,.gre{color:lightgreen;
+.sc, .pa,.lb,.gre{background-color:lightgreen;
 border-color:lightgreen;}
-.ke,.co,.wa,.sm,.ki,.gü,.he,.stk{color:purple;
+.ke,.co,.wa,.sm,.ki,.gü,.he,.stk{background-color:purple;
 border-color:purple;}
-.zw,.cle, .fun,.rop,.pm,.hä, .ne,.lo{color:magenta;
+.zw,.cle, .fun,.rop,.pm,.hä, .ne,.lo{background-color:magenta;
 border-color:magenta;}
 
 
@@ -119,11 +119,11 @@ background-color:steelblue;
 <button onClick="laden()">String aus Box laden
 </button>
 <input type="radio" id="farbe" name="layout" >
-<label for="farbe">dunkel</label>
+<label for="farbe">farbe</label>
 <input type="radio" id="mittel" name="layout" >
 <label for="mittel">mittel</label>
-<input type="radio" id="sw" name="layout" >
-<label for="sw">SW</label>
+<input type="radio" id="dunkel" name="layout" >
+<label for="dunkel">dunkel</label>
 
 <div class="main">
 <h2>Montag</h2>
@@ -378,7 +378,7 @@ laden();
 
 //FARBE-Wählen:
 
-$("#sw").click(
+$("#dunkel").click(
 function(){
 $("tr").children().each(function(){
 
