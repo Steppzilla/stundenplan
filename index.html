@@ -14,8 +14,7 @@ tr:nth-child(4),tr:nth-child(5),tr:nth-child(8),tr:nth-child(9){
 background-color:aliceblue;
 }
 
-tr{
-	}
+tr{	}
       
 td {
 	height: auto;
@@ -30,7 +29,31 @@ td {
 
 p{	
 	margin:0pt;
+	border-radius:10px;
+	border-width:1px;
+	border-style:solid;
 }
+
+
+
+
+.wo, .ba,.cla{
+color:red;
+border-color:red;
+}
+.eh, .so{color:green;
+border-color:green;}
+.fr,.san,.ze{color:blue;
+border-color:blue;}
+.sod,.ste{color:orange;
+border-color:orange;}
+.sc, .pa,.lb,.gre{color:lightgreen;
+border-color:lightgreen;}
+.ke,.co,.wa,.sm,.ki,.gü,.he,.stk{color:purple;
+border-color:purple;}
+.zw,.cle, .fun,.rop,.pm,.hä, .ne,.lo{color:magenta;
+border-color:magenta;}
+
 
 .noclick{
 pointer-events:none;
@@ -41,6 +64,11 @@ pointer-events:none;
 	border-left: solid;
 	border-width:1pt;
 	}
+	
+.plan div{
+border-style:solid;
+border-width:1px;
+}
 	
 .kuerzell:hover {
 background-color:steelblue;
@@ -212,8 +240,9 @@ $("td").click(function(){
 		if(klasseVorher==""){
 		$(this).append(lehrerItem);
 		$(this).parent().children().eq(spalteLehrer).append("<div>"+spalteKlasse+"</div>");
+		$(this).parent().children().eq(spalteLehrer).children().eq(0).addClass(kuerzel);
 		}else{
-		alert("lehrer " + kuerzel + " schon vergeben");
+		alert("lehrer " + kuerzel + " schon vergeben in Klasse " + klasseVorher);
 		}
 	}else{//bei zerstörung aktiv:
 		var kurz="";
@@ -244,6 +273,7 @@ else{
 zerstoerung=false;
 }
 }
+
 //Druck
 function drucken(){
 $("td").css("border-radius","5pt");
@@ -292,13 +322,18 @@ for(i=0;i<anzahlTD;i++){
 	if(kinderanzahl==0){}
 	else{
 		for(j=0;j<kinderanzahl;j++){
-		//	alert(i + "  " + j);
-			var kue=aktuelleBox.children().eq(j).text();
+			var kue=aktuelleBox.children().eq(j).text(); // kue ist das kuerzel im p-element (Kind von td)
 			var lehrerspalt=lehrerSpalteErmitteln(kue);
 			var klasse=aktuelleBox.index();
 			//var zeile=aktuelleBox.parent().index();
 			aktuelleBox.parent().children().eq(lehrerspalt).append("<div>"+klasse+"</div>");
+			aktuelleBox.parent().children().eq(lehrerspalt).children().eq(0).addClass(kue); //Farb-Klasse hinzufügen
 			
+
+			//var bue=kue.toLowerCase();
+			aktuelleBox.children().eq(j).addClass(kue.toLowerCase());   //kuerzel-klassen/styles werden zugefügt zu den p-elementen
+			//$("p").addClass("hi");
+
 		}
 	}
 
