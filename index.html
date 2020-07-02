@@ -24,14 +24,12 @@ td {
 	min-width:5mm;
     vertical-align:top;
 	text-align:center;
+	padding:2pt;
 	}
 
 p{	
-	margin:1pt;
-	border-radius:10px;
-	border-width:1px;
-	border-style:solid;
-	padding:1pt;
+	border-radius:8px;
+	padding:2pt;
 }
 
 
@@ -39,24 +37,23 @@ p{
 
 .wo, .ba,.cla{
 background-color:red;
-border-color:red;
 }
 .eh, .so{background-color:magenta;
-border-color:magenta;}
+}
 .fr,.san,.ze{background-color:blue;
-border-color:blue;}
+}
 .sod,.ste{background-color:darkorange;
-border-color:darkorange;}
+}
 .sc, .pa{background-color:deepskyblue;
-border-color:deepskyblue;}
+}
 .ke,.co,.wa,.sm,.ki,.gü,.he,.stk{background-color:blueviolet;
-border-color:blueviolet;}
+}
 .zw,.cle, .fun,.rop,.pm,.lo{background-color:lime;
-border-color:lime;}
+}
 .hä, .ne{background-color:gold;
-border-color:gold;}
+}
 .lb,.gre{background-color:cadetblue;
-border-color:cadetblue;}
+}
 
 
 .noclick{
@@ -68,8 +65,7 @@ pointer-events:none;
 	}
 	
 .plan div{
-border-style:solid;
-border-width:1px;
+padding:1pt;
 }
 	
 .kuerzell:hover {
@@ -89,14 +85,29 @@ background-color:steelblue;
 @media print {
 	@page {
 	margin: 5pt; 
-	font-family: "times new roman", times, serif;
-    text-align: justify;}
-	button{display:none;}
-	td{	
-	border-width:0 pt;
-	margin:0pt;
-	padding:0pt;
 	}
+	p,div,table, h1,h2{
+	margin:0pt;
+	padding:0pt;}
+	*{color:black;
+	}
+	input, label, button{display:none;}
+	td,.plan{
+	min-width:0pt;
+	min-height:0pt;
+	border-top-width:1px;
+	border-top-style:dotted;
+	border-left-width:1px;
+	border-left-style:dotted;
+	}
+	.plan div, td p{
+	padding:0pt;
+	margin:0pt;
+	font-size:9pt;
+	}
+	th{width:auto;
+	font-size:9pt;}
+	
   
 }
 
@@ -244,7 +255,7 @@ $("td").click(function(){
 		inhalt.push(jo);
 	}
 	//alert(inhalt);
-	spalteKlasse=$(this).index();
+	spalteKlasse=$(this).index().trim();
 	reiheStunde=$(this).parent().index();
 	klasseVorher=$(this).parent().children().eq(spalteLehrer).text().trim();
 	
@@ -290,11 +301,14 @@ zerstoerung=false;
 
 //Druck
 function drucken(){
-$("td").css("border-radius","5pt");
-$("td").css("margin","0pt");
-$("td").css("padding","0pt");
+speichern();
+
+
 window.print();
 
+
+
+laden();
 }
 
 var anzahlTD=$("td").length;
