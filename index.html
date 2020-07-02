@@ -381,7 +381,11 @@ laden();
 $("#sw").click(
 function(){
 $("tr").children().each(function(){
+
+
 $(this).addClass("dark");
+$(this).removeClass("middle");
+$(this).removeClass("light");
 }
 );
 //$(".kuerzell").hover(
@@ -394,7 +398,9 @@ $(this).addClass("dark");
 $("#mittel").click(
 function(){
 $("tr").children().each(function(){
+$(this).removeClass("dark");
 $(this).addClass("middle");
+$(this).removeClass("light");
 }
 );
 //$(".kuerzell").hover(
@@ -410,6 +416,8 @@ $(this).addClass("middle");
 $("#farbe").click(
 function(){
 $("tr").children().each(function(){
+$(this).removeClass("dark");
+$(this).removeClass("middle");
 $(this).addClass("light");
 }
 );
