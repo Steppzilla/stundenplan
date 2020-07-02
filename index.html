@@ -70,10 +70,17 @@ border-width:1px;
 	
 .kuerzell:hover {
 background-color:steelblue;
-
-	
 	}
 	
+	.dark{
+	background-color:black;
+	}
+	.middle{
+	background-color:grey;
+	}
+	.light{
+	background-color:cyan;
+	}
 	
 @media print {
 	@page {
@@ -113,8 +120,11 @@ background-color:steelblue;
 </button>
 <input type="radio" id="farbe" name="layout" >
 <label for="farbe">dunkel</label>
+<input type="radio" id="mittel" name="layout" >
+<label for="mittel">mittel</label>
 <input type="radio" id="sw" name="layout" >
 <label for="sw">SW</label>
+
 <div class="main">
 <h2>Montag</h2>
 <table>
@@ -370,26 +380,46 @@ laden();
 
 $("#sw").click(
 function(){
-
-$("*").css("background-color","white");
-$("*").css("color","black");
-$(".kuerzell").hover(
-function(){$(this).css("background-color","yellow");},
-function(){$(this).css("background-color","");}
-);
+$("tr").children().each(function(){
+$(this).addClass("dark");
 }
 );
+//$(".kuerzell").hover(
+//function(){$(this).css("background-color","yellow");},
+//function(){$(this).css("background-color","");}
+//);
+}
+);
+
+$("#mittel").click(
+function(){
+$("tr").children().each(function(){
+$(this).addClass("middle");
+}
+);
+//$(".kuerzell").hover(
+//function(){$(this).css("background-color","yellow");},
+//function(){$(this).css("background-color","");}
+//);
+}
+);
+
+
+
+
 $("#farbe").click(
 function(){
-
-$("*").css("background-color","midnightblue");
-$("*").css("color","lightgrey");
-$(".kuerzell").hover(
-function(){$(this).css("background-color","yellow");},
-function(){$(this).css("background-color","");}
-);
+$("tr").children().each(function(){
+$(this).addClass("light");
 }
 );
+//$(".kuerzell").hover(
+//function(){$(this).css("background-color","yellow");},
+//function(){$(this).css("background-color","");}
+//);
+}
+);
+
 
 
 
