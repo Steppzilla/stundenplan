@@ -255,7 +255,7 @@ $("td").click(function(){
 		inhalt.push(jo);
 	}
 	//alert(inhalt);
-	spalteKlasse=$(this).index().trim();
+	spalteKlasse=$(this).index();
 	reiheStunde=$(this).parent().index();
 	klasseVorher=$(this).parent().children().eq(spalteLehrer).text().trim();
 	
