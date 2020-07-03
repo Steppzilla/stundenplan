@@ -196,33 +196,35 @@ var lehrer = [
 ];
 
 
-for(i=0;i<11;i++){
+for(i=0;i<11;i++){//11 zeilen erstellen (0-10)
 $("table").append("<tr>" + "</tr>");
 
 	for(j=0;j<15;j++){
 		if(i==0){
-		$("table").children().eq(i).append("<th class='noclick'>"+"</th>");
+		$("table").children().eq(i).append("<th class='noclick'>"+"</th>"); //Erste Zeile Headings
 		}
 		else if(j==0){ //Stundenzahlen
-		$("table").children().eq(i).append("<th class='noclick'>"+ i +"</th>");
+		$("table").children().eq(i).append("<th class='noclick'>"+ i +"</th>");//erste spalte je head
 		}else{
-		$("table").children().eq(i).append("<td>"+"</td>");
+		$("table").children().eq(i).append("<td>"+"</td>"); //rest td-elemente.
 		}
 	}
 }
-//Klassennummern
+////erste 15 header befüllen
 for(i=0;i<15;i++){
 	if(i==0){
-	$("th").eq(i).text("Std");
+	$("th").eq(i).text("Std"); //Erster Header links: Std
 	}else{
-	$("th").eq(i).text(i);
+	$("th").eq(i).text(i);   // erste 14 Header mit Nummer versehen.
 	}
 }
 //Lehrerkürzel
 for(i=0;i<lehrer.length; i++){
-$("table").children().eq(0).append("<th class='kuerzell'>"+lehrer[i]+"</th>");
+$("table").children().eq(0).append("<th class='kuerzell'>"+lehrer[i]+"</th>"); //Lehrerkürzel oben rechts
+$("table").children().eq(0).children().eq(i+15).addClass(lehrer[i].toLowerCase()); //Kürzel farbig machen oben
+
 	for(j=1;j<11;j++){
-$("table").children().eq(j).append("<th class='noclick plan' >"+ "</th>");
+$("table").children().eq(j).append("<th class='noclick plan' >"+ "</th>");//Klassenkuerzel-tabelle rechts (noclick)
 }
 }
 //Kopie
