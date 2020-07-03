@@ -7,16 +7,19 @@
 </title>
 <style>
 *{
-	background: rgba(20,20,20,0.1);
+	background: rgba(20,20,20,0.11);
 	color:white;}
 table {
        width:100%;
       }
+	  
 tr:nth-child(4),tr:nth-child(5),tr:nth-child(8),tr:nth-child(9){
 background: rgba(20,20,20,0.01);
 }
-
-tr{	}
+tr:nth-child(1) th{border-color:black;
+border-width:2pt;
+border-style:solid;
+border-radius:3pt;}
       
 td {
 	height: auto;
@@ -32,8 +35,12 @@ p{
 	padding:2pt;
 }
 
-
-
+.marked{background:rgba(20,20,20,1);
+border-style:solid;
+border-width:1pt;
+}
+.marked p{
+}
 
 .wo, .ba,.cla{
 background-color:red;
@@ -66,12 +73,18 @@ pointer-events:none;
 	
 .plan div{
 padding:1pt;
+width:90%;
+horizontal-align:center;
+border-radius:12pt;
 }
-	
+.kuerzell{
+padding:0pt;}
 .kuerzell:hover {
 background-color:steelblue;
 	}
-	
+.kuerzell div{width:100%;
+height:100%;
+}	
 	.dark{
 	background-color:black;
 	}
@@ -122,7 +135,7 @@ background-color:steelblue;
 
 <body>
 
-<button><a href="babybaeren"> testseite</a></button>
+<!--<button><a href="babybaeren"> testseite</a></button>-->
 <button onClick="zerstoeren()">delete
 </button>
 <button onClick="drucken()">drucken
@@ -133,12 +146,14 @@ background-color:steelblue;
 </button>
 <button onClick="laden()">String aus Box laden
 </button>
+<!--
 <input type="radio" id="farbe" name="layout" >
 <label for="farbe">farbe</label>
 <input type="radio" id="mittel" name="layout" >
 <label for="mittel">mittel</label>
 <input type="radio" id="dunkel" name="layout" >
 <label for="dunkel">dunkel</label>
+-->
 
 <div class="main">
 <h2>Montag</h2>
@@ -220,8 +235,8 @@ for(i=0;i<15;i++){
 }
 //Lehrerkürzel
 for(i=0;i<lehrer.length; i++){
-$("table").children().eq(0).append("<th class='kuerzell'>"+lehrer[i]+"</th>"); //Lehrerkürzel oben rechts
-$("table").children().eq(0).children().eq(i+15).addClass(lehrer[i].toLowerCase()); //Kürzel farbig machen oben
+$("table").children().eq(0).append("<th class='kuerzell'>"+"<div>"+lehrer[i]+"</div>"+"</th>"); //Lehrerkürzel oben rechts
+$("table").children().eq(0).children().eq(i+15).children().eq(0).addClass(lehrer[i].toLowerCase()); //Kürzel farbig machen oben
 
 	for(j=1;j<11;j++){
 $("table").children().eq(j).append("<th class='noclick plan' >"+ "</th>");//Klassenkuerzel-tabelle rechts (noclick)
@@ -241,9 +256,9 @@ var lehrerItem="";
 var zerstoerung=false;
 
 
-$("th").click(function(){
-zerstoerung=false;
+$("th").click(function(){ // geht, weil andere header die klasse "noclick " haben
 kuerzel=$(this).text();
+zerstoerung=false;
 lehrerItem="<p>"+kuerzel+"</p>";
 spalteLehrer=$(this).index();
 });
@@ -423,14 +438,8 @@ $(this).addClass("middle");
 $(this).removeClass("light");
 }
 );
-//$(".kuerzell").hover(
-//function(){$(this).css("background-color","yellow");},
-//function(){$(this).css("background-color","");}
-//);
 }
 );
-
-
 
 
 $("#farbe").click(
@@ -441,14 +450,32 @@ $(this).removeClass("middle");
 $(this).addClass("light");
 }
 );
-//$(".kuerzell").hover(
-//function(){$(this).css("background-color","yellow");},
-//function(){$(this).css("background-color","");}
-//);
 }
 );
 
-
+$(".kuerzell").mouseover(function(){
+	$("td p").css("opacity","0.3");
+	var dieseSpalte=$(this).index(); //index im Zeilen tr-element
+	var lehrerkuerzel=$(this).text();
+	for(i=1;i<11;i++){
+		var behaelter=$(this).parent().parent().children().eq(i).children();
+	 var klassenza=behaelter.eq(dieseSpalte).children().eq(0).text();
+	if(klassenza!=""){
+	for (j=0;j<behaelter.eq(klassenza).children().length;j++){
+		
+	 var boxinhalt=behaelter.eq(klassenza).children().eq(j).text();
+	 if(boxinhalt==lehrerkuerzel){
+	 behaelter.eq(klassenza).children().eq(j).css("opacity","1");//
+	 behaelter.eq(klassenza).children().eq(j).parent().addClass("marked");
+	 }
+	 }
+	 }
+	}
+});
+$(".kuerzell").mouseout(function(){
+$("td p").css("opacity","1");
+$("*").removeClass("marked");
+});
 
 
 </script>
