@@ -9,7 +9,7 @@
 *{
 	background: rgba(20,20,20,0.11);
 	color:white;
-	font-size:14pt;}
+	font-size:12pt;}
 	  
 tr:nth-child(4),tr:nth-child(5),tr:nth-child(8),tr:nth-child(9){
 	background: rgba(20,20,20,0.01);
@@ -83,11 +83,11 @@ tr:nth-child(4),tr:nth-child(5),tr:nth-child(8),tr:nth-child(9){
 
 .original,.tableCopy{
 	display:grid;
-	grid-template-columns: auto 70pt;
+	grid-template-columns: 700pt 90pt;
 }
 .lehrermenu{
 	display: grid;
-	grid-template-columns: auto auto;
+	grid-template-columns: auto auto auto;
 }
 .menubutton{
 	margin:2pt;
@@ -97,7 +97,10 @@ tr:nth-child(4),tr:nth-child(5),tr:nth-child(8),tr:nth-child(9){
 	width:auto;
 }
 
-.rasterElement{display:flex;
+td{
+}
+.rasterElement{
+display:flex;
 justify-content:center;
 }
 .rasterElement p{
@@ -428,7 +431,8 @@ function(){
 	$(".plan").hide();
 	$(".kuerzell").hide();
 	$(".lehrermenu").show();
-	$("*").css("font-size","14pt");
+	$(".tableCopy").css("grid-template-columns","650pt 90pt");
+	$(".original").css("grid-template-columns","650pt 90pt");
 });
 
 $("#einblender").click(
@@ -436,8 +440,8 @@ function(){
 	$(".plan").show();
 	$("th").show();
 	$(".lehrermenu").hide();
-	$("*").css("font-size","10pt");
-	//$("td").css("display","grid");
+	$(".tableCopy").css("grid-template-columns","100%");
+	$(".original").css("grid-template-columns","100%");
 });
 
 
