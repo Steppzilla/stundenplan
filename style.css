@@ -1,0 +1,64 @@
+*{
+	background: rgba(20,20,20,0.11);
+	color:white;
+	font-size:12pt;}
+	  
+tr:nth-child(4),tr:nth-child(5),tr:nth-child(8),tr:nth-child(9){
+	background: rgba(20,20,20,0.01);
+}
+
+
+.marked{
+	background:rgba(20,20,20,1);
+	border-style:solid;
+	border-width:1pt;
+}
+
+
+
+
+.noclick{
+	pointer-events:none;
+}
+.plan {
+	
+	}	
+	
+.plan div{
+	border-radius:12pt;
+}
+.kuerzell:hover, .menubutton:hover{
+	background-color:steelblue;
+}
+
+.original,.tableCopy{
+	display:grid;
+	grid-template-columns: 700pt 90pt;
+}
+#lehrermenu{
+	display: grid;
+	grid-template-columns: auto auto auto auto auto auto;
+}
+.menubutton{
+	margin:2pt;
+	padding-right:2pt;
+	padding-left:2pt;
+	border-radius:5pt;
+	width:auto;
+}
+
+
+.rasterElement{
+display:flex;
+justify-content:center;
+}
+.rasterElement p{
+	border-radius:5pt;
+	padding: 1pt;
+	margin: 1pt;
+	min-width:10pt;
+	text-align:center;
+	width:100%;
+}
+.transparent{opacity:0.5;}
+.blasser{opacity:0.8;}

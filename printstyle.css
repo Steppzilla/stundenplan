@@ -1,0 +1,36 @@
+@media print {
+	@page {
+		margin: 5pt; 
+	}
+	p,div,table, h1,h2{
+		margin:0pt;
+		padding:0pt;}
+	*{
+		color:black;
+	}
+	input, label, button,.lehrermenu div{
+		display:none;
+	}
+	td,.plan{
+		min-width:0pt;
+		min-height:0pt;
+		border-top-width:1px;
+		border-top-style:dotted;
+		border-left-width:1px;
+		border-left-style:dotted;
+	}
+	.plan div, td p{
+		padding:0pt;
+		margin:0pt;
+		font-size:9pt;
+	}
+	th{
+		width:auto;
+		font-size:9pt;
+	}
+	.original,.tableCopy{
+		width:100%;
+		display:grid;
+		grid-template-columns: 100%;
+	}
+}
